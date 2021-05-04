@@ -1,0 +1,12 @@
+FROM node:alpine
+
+WORKDIR /frontend
+
+COPY ./package.json .
+RUN npm update -g npm
+RUN yarn install
+COPY . .
+
+CMD ["yarn", "start"]
+
+
