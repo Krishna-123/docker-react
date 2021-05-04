@@ -1,0 +1,10 @@
+sudo:required
+services:
+  - docker
+
+
+before_install:
+ - docker build -f Dockerfile.dev -t vkrishna/docker-react .
+
+script:
+ - docker run -e CI=true vkrishna/docker-react yarn test
