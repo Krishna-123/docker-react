@@ -1,0 +1,6 @@
+FROM node:alpine
+RUN npx create-react-app docker-react-node-app
+EXPOSE 3000
+WORKDIR /docker-react-node-app
+RUN chmod -f 777 src/*
+CMD [ "npm", "start" ]
