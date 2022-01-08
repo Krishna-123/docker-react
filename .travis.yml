@@ -13,10 +13,10 @@ script:
 
 after_success:
 #  once the test is successful we need to run build the prod version of the image 
-  - docker run -t krishna/client-react ./client
-  - docker run -t krishna/nginx-prod ./nginx
-  - docker run -t krishna/server-node ./server
-  - docker run -t krishna/worker-node ./worker
+  - docker build -t krishna/client-react ./client
+  - docker build -t krishna/nginx-prod ./nginx
+  - docker build -t krishna/server-node ./server
+  - docker build -t krishna/worker-node ./worker
 
 # once the docker build the prod version the images we need to push them to docker hub
   - echo "$DOCKER_PASSWORD" | docker login -u $DOCKER_USERNAME --password-stdin
