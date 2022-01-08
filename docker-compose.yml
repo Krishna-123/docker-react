@@ -1,0 +1,55 @@
+version: "3.9"
+services: 
+ 
+
+  redis:
+    image: "redis:latest"
+  
+  postgres:
+    image: "postgres:latest"
+    environment: 
+      POSTGRES_PASSWORD: postgres  
+
+  server-node:
+    build: 
+      dockerfile: Dockerfile.dev
+      context: ./server/
+    volumes: 
+      - /server/node_modules
+      - ./server/:/server
+    restart: unless-stopped  
+    environment: 
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+      - PGUSER=postgres
+      - PGHOST=postgres
+      - PGDATABASE=postgres
+      - PGPASSWORD=postgres
+      - PGPORT=5432
+
+  client-react:
+    build: 
+      dockerfile: Dockerfile.dev
+      context: ./client/
+    volumes: 
+      - ./client/src/:/client/src/
+      # - /client/
+    restart: unless-stopped  
+    environment: 
+      - WDS_SOCKET_PORT=0
+
+  worker-node:
+    build: 
+      dockerfile: Dockerfile.dev
+      context: ./worker/
+    environment: 
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+
+  nginx: 
+    build:
+      dockerfile: Dockerfile.dev
+      context: ./nginx/
+    ports: 
+      - '4000:80'     
+    restart: always       
