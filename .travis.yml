@@ -19,5 +19,5 @@ after_success:
   - docker run -t vkrishna123/worker-node ./worker
 
 # once the docker build the prod version the images we need to push them to docker hub
-  - docker login -u $DOCKER_USERNAME -p DOCKER_PASSWORD
+  - docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
   - docker push vkrishna123/nginx-prod
