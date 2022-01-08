@@ -1,23 +1,29 @@
 sudo: required
 services:
   - docker
-before_install:
-# testing before install
-  - docker build -t vkrishna123/client_react -f ./client/Dockerfile.dev ./client
-#  currently we only haev react app to test
-# so only build for react app
-#  need to proceed in the same way for others as well
-script:
- - docker run -e CI=true vkrishna123/client_react npm run test
-#  need to proceed in the same way for others
+# before_install:
+# # testing before install
+#   - docker build -t vkrishna123/client_react -f ./client/Dockerfile.dev ./client
+# #  currently we only haev react app to test
+# # so only build for react app
+# #  need to proceed in the same way for others as well
+# script:
+#  - docker run -e CI=true vkrishna123/client_react npm run test
+# #  need to proceed in the same way for others
 
-after_success:
+script:
 #  once the test is successful we need to run build the prod version of the image 
-  # - docker build -t vkrishna123/client-react ./client
+  - docker build -t vkrishna123/client-react ./client
   - docker build -t vkrishna123/nginx-prod ./nginx
-  # - docker build -t vkrishna123/server-node ./server
-  # - docker build -t vkrishna123/worker-node ./worker
+  - docker build -t vkrishna123/server-node ./server
+  - docker build -t vkrishna123/worker-node ./worker
 
 # once the docker build the prod version the images we need to push them to docker hub
+  #  login to docker hub it will not allow to directly pass the password
   - echo "$DOCKER_PASSWORD" | docker login -u $DOCKER_USERNAME --password-stdin
+  #  push the images to docker hub
+  - sudo docker push vkrishna123/client-react:latest 
   - sudo docker push vkrishna123/nginx-prod:latest 
+  - sudo docker push vkrishna123/server-node:latest 
+  - sudo docker push vkrishna123/worker-node:latest 
+ 
