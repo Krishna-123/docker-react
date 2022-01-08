@@ -1,0 +1,13 @@
+sudo: required
+services:
+  - docker
+before_install:
+# testing before install
+  - docker build -t krishna123/client_react -f ./client/Dockerfile.dev ./client
+#  currently we only haev react app to test
+# so only build for react app
+#  need to proceed in the same way for others as well
+script:
+ - docker run -e CI=true krishna123/client_react npm run test
+#  need to proceed in the same way for others
+
