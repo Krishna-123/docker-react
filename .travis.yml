@@ -3,21 +3,21 @@ services:
   - docker
 before_install:
 # testing before install
-  - docker build -t vkrishna123/client_react -f ./client/Dockerfile.dev ./client
+  - docker build -t krishna/client_react -f ./client/Dockerfile.dev ./client
 #  currently we only haev react app to test
 # so only build for react app
 #  need to proceed in the same way for others as well
 script:
- - docker run -e CI=true vkrishna123/client_react npm run test
+ - docker run -e CI=true krishna/client_react npm run test
 #  need to proceed in the same way for others
 
 after_success:
 #  once the test is successful we need to run build the prod version of the image 
-  - docker run -t vkrishna123/client-react ./client
-  - docker run -t vkrishna123/nginx-prod ./nginx
-  - docker run -t vkrishna123/server-node ./server
-  - docker run -t vkrishna123/worker-node ./worker
+  - docker run -t krishna/client-react ./client
+  - docker run -t krishna/nginx-prod ./nginx
+  - docker run -t krishna/server-node ./server
+  - docker run -t krishna/worker-node ./worker
 
 # once the docker build the prod version the images we need to push them to docker hub
   - echo "$DOCKER_PASSWORD" | docker login -u $DOCKER_USERNAME --password-stdin
-  - docker push vkrishna123/nginx-prod
+  - docker push krishna/nginx-prod
