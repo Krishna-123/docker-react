@@ -2,7 +2,7 @@ FROM node:alpine
 WORKDIR /clinet-react
 COPY ./package.json .
 RUN npm install
-COPY . .
+COPY ./src ./src
 RUN npm run build
 
 FROM nginx
