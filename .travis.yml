@@ -26,4 +26,15 @@ after_success:
   - sudo docker push vkrishna123/nginx-prod:latest 
   - sudo docker push vkrishna123/server-node:latest 
   - sudo docker push vkrishna123/worker-node:latest 
- 
+
+deploy:
+  provider: elasticbeanstalk
+  region: "us-east-1"
+  app: "multi-docker"
+  env: "Multidocker-env"
+  bucket_name: "elasticbeanstalk-us-east-1-053692227781"
+  bucket_path: "multi-docker"
+  on:
+    branch: dev_react
+  access_key_id: $AWS_ACCESS_KEY
+  secret_access_key: $AWS_SECRET_KEY
